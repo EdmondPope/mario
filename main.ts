@@ -8,24 +8,24 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.shell, function (sprite, otherSp
     sprites.destroy(otherSprite)
     SHELL_MAN = sprites.create(img`
         . . . . . . . . . . . . . . . . 
-        . . . . . . 5 1 5 . . . . . . . 
-        . . . . . . 5 1 f 5 . . . . . . 
-        . . . . . 7 1 5 5 5 5 . . . . . 
-        . . . . 7 1 1 5 5 . . . . . . . 
-        . . . 7 1 7 1 5 . . . . . . . . 
-        . . 7 1 7 1 1 5 . . . . . . . . 
-        . . 7 7 1 7 1 5 . . . . . . . . 
-        . . 7 1 7 1 1 5 5 . . . . . . . 
-        . . 7 7 1 7 1 5 5 5 5 . . . . . 
-        . . 7 1 7 1 1 5 . 5 5 5 . . . . 
-        . . . 7 1 7 1 5 . . 5 5 . . . . 
-        . . . . 7 1 1 5 5 . . . . . . . 
-        . . . . 5 5 5 5 5 5 . . . . . . 
-        . . . . 5 5 . . 5 5 . . . . . . 
-        . . . . 5 5 . . 5 5 . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . e e e e e e . . . . . 
+        . . . . f e e e e e e f . . . . 
+        . . . e 1 f e e e e f 1 e . . . 
+        . . e e 1 f f f f f f 1 e e . . 
+        . e e e 1 f 1 e e 1 f 1 e e e . 
+        . e e e 1 f 1 e e 1 f 1 e e e . 
+        . e e e 1 1 1 e e 1 1 1 e e e . 
+        . e e e e e e e e e e e e e e . 
+        . . e e e e d d d d e e e e . . 
+        . . . . f f d d d d f f . . . . 
+        . . . f f f d d d d f f f . . . 
+        . . . f f f . . . . f f f . . . 
         `, SpriteKind.Enemy)
     SHELL_MAN.follow(Mario, 80)
-    SHELL_MAN.setPosition(Mario.x + 80, Mario.y - 10)
+    SHELL_MAN.setPosition(Mario.x + 80, Mario.y - 5)
     if (SHELL_MAN.vy > -1) {
         SHELL_MAN.ay = 10000
     }
@@ -68,9 +68,6 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile2`, function (sprite, l
     Mario.setPosition(0, 0)
     info.changeLifeBy(1)
 })
-scene.onOverlapTile(SpriteKind.goomba, assets.tile`myTile16`, function (sprite, location) {
-    tiles.placeOnTile(gomba, tiles.getTileLocation(0, 0))
-})
 sprites.onOverlap(SpriteKind.Player, SpriteKind.goomba, function (sprite, otherSprite) {
     info.changeScoreBy(1)
     sprites.destroy(otherSprite)
@@ -103,11 +100,16 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile11`, function (sprite, 
     info.changeLifeBy(1)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
-    info.changeLifeBy(-1)
     sprites.destroy(otherSprite)
+    if (Mario.y < otherSprite.y) {
+        info.changeScoreBy(5)
+    } else {
+        info.changeLifeBy(-1)
+    }
 })
 let gomba: Sprite = null
 let SHELL_MAN: Sprite = null
+let Luige: Sprite = null
 let shell: Sprite = null
 let coin: Sprite = null
 let Mario: Sprite = null
@@ -287,21 +289,43 @@ for (let value of tiles.getTilesByType(assets.tile`myTile15`)) {
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
-        . . . . . 7 7 7 7 7 . . . . . . 
-        . . . . 7 1 7 1 7 1 7 . . . . . 
-        . . . 7 1 7 1 7 1 7 1 7 . . . . 
-        . . 7 1 7 1 7 1 7 1 7 1 7 . . . 
-        . 7 1 7 1 7 1 7 1 7 1 7 1 7 . . 
-        . 1 1 1 1 1 1 1 1 1 1 1 1 1 . . 
-        . . d d d d d d d d d d d . . . 
-        . . . d d d d d d d d d . . . . 
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . e e e e e e e . . . . 
+        . . . e e e e e e e e e e e . . 
+        . . . e e e e e e e e e e e . . 
+        . . e e e e e e e e e e e e e . 
+        . . e e e f f e e e f f e e e . 
         `, SpriteKind.shell)
     tiles.placeOnTile(shell, value)
+    tiles.setTileAt(value, assets.tile`transparency16`)
+}
+for (let value of tiles.getTilesByType(assets.tile`myTile16`)) {
+    Luige = sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . e e e e e e e . . . . 
+        . . . e e e e e e e e e e e . . 
+        . . . e e e e e e e e e e e . . 
+        . . e e e e e e e e e e e e e . 
+        . . e e e f f e e e f f e e e . 
+        `, SpriteKind.Enemy)
+    tiles.placeOnTile(Luige, value)
     tiles.setTileAt(value, assets.tile`transparency16`)
 }
 game.onUpdate(function () {
