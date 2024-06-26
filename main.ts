@@ -2,10 +2,36 @@ namespace SpriteKind {
     export const coin = SpriteKind.create()
     export const shell = SpriteKind.create()
     export const goomba = SpriteKind.create()
+    export const Boss = SpriteKind.create()
+    export const up1 = SpriteKind.create()
+    export const bluekoopatrooper = SpriteKind.create()
+    export const redkoopatrooper = SpriteKind.create()
+    export const koopatrooper = SpriteKind.create()
+    export const purplekoopatrooper = SpriteKind.create()
+    export const bbbbbbbbbbbbbb = SpriteKind.create()
+    export const koopashellllllll = SpriteKind.create()
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.shell, function (sprite, otherSprite) {
     info.changeScoreBy(1)
     sprites.destroy(otherSprite)
+    Luige = sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . e e e e e e e . . . . 
+        . . . e e e e e e e e e e e . . 
+        . . . e e e e e e e e e e e . . 
+        . . e e e e e e e e e e e e e . 
+        . . e e e f f e e e f f e e e . 
+        `, SpriteKind.goomba)
     SHELL_MAN = sprites.create(img`
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
@@ -25,7 +51,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.shell, function (sprite, otherSp
         . . . f f f . . . . f f f . . . 
         `, SpriteKind.Enemy)
     SHELL_MAN.follow(Mario, 80)
-    SHELL_MAN.setPosition(Mario.x + 80, Mario.y - 5)
+    SHELL_MAN.setPosition(Mario.x + 80, Mario.y - 50)
     if (SHELL_MAN.vy > -1) {
         SHELL_MAN.ay = 10000
     }
@@ -34,23 +60,45 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile1`, function (sprite, l
     Mario.setPosition(0, 0)
     info.changeLifeBy(1)
 })
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile19`, function (sprite, location) {
+    _1up = sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . 7 7 7 7 7 7 7 . . . . . 
+        . . . 7 7 7 1 7 7 7 7 7 . . . . 
+        . . 7 7 7 7 7 7 7 1 7 7 7 . . . 
+        . 7 7 7 7 7 7 7 7 7 7 7 7 7 . . 
+        . 7 7 1 7 7 7 1 7 7 7 1 7 7 . . 
+        . 7 7 7 7 7 7 7 7 7 7 7 7 7 . . 
+        . . . . d d d d d d d . . . . . 
+        . . . . d d d d d d d . . . . . 
+        . . . . d d d d d d d . . . . . 
+        . . . . d d d d d d d . . . . . 
+        `, SpriteKind.up1)
+    tiles.placeOnTile(_1up, location)
+    tiles.setTileAt(location, assets.tile`transparency16`)
+})
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     if (Mario.vy == 0) {
         Mario.vy = -150
     }
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile13`, function (sprite, location) {
-    Mario.setPosition(50, 50)
+    Mario.setPosition(79, 0)
     info.changeLifeBy(1)
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    music.play(music.stringPlayable("C5 F C5 E D E F C ", 120), music.PlaybackMode.UntilDone)
-    music.play(music.stringPlayable("C5 B A G F E D C ", 120), music.PlaybackMode.UntilDone)
-    music.play(music.stringPlayable("B A G F E D C C5 ", 120), music.PlaybackMode.UntilDone)
-    music.play(music.stringPlayable("A G F E D C C5 B ", 120), music.PlaybackMode.UntilDone)
+    music.play(music.stringPlayable("C D C D C D C D ", 120), music.PlaybackMode.UntilDone)
+    music.play(music.stringPlayable("C D C D C D C D ", 120), music.PlaybackMode.UntilDone)
+    music.play(music.stringPlayable("C E C E C E C E ", 120), music.PlaybackMode.UntilDone)
+    music.play(music.stringPlayable("C D C D C D C D ", 120), music.PlaybackMode.UntilDone)
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile12`, function (sprite, location) {
-    Mario.setPosition(50, 50)
+    Mario.setPosition(79, 0)
     info.changeLifeBy(1)
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile9`, function (sprite, location) {
@@ -60,6 +108,47 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile3`, function (sprite, l
     Mario.setPosition(0, 0)
     info.changeLifeBy(1)
 })
+sprites.onOverlap(SpriteKind.Player, SpriteKind.bluekoopatrooper, function (sprite, otherSprite) {
+    sprites.destroy(otherSprite)
+    if (Mario.y < otherSprite.y) {
+        info.changeScoreBy(5)
+    } else {
+        info.changeLifeBy(-1)
+    }
+})
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile18`, function (sprite, location) {
+    BOWSER = sprites.create(img`
+        . . . . . . 2 2 2 . . . . . . . 
+        . . . . . . 4 1 4 . . . . . . . 
+        . . . . . . 4 1 f 4 . . . . . . 
+        . . d . . 7 1 4 4 4 4 . . . . . 
+        . . . d 7 1 1 4 4 . . . . . . . 
+        . . . 7 1 7 1 4 . . . . . . . . 
+        . . 7 1 7 1 1 4 4 . . . . . . . 
+        d d 7 7 1 7 1 4 4 4 4 . . . . . 
+        . . 7 1 7 1 1 4 4 4 4 4 . . . . 
+        d d 7 7 1 7 1 4 4 4 4 4 4 d . . 
+        . . d 1 7 1 1 4 4 . . 4 4 . . . 
+        . d . 7 1 7 1 4 4 . d . d . . . 
+        . . . d 7 1 1 4 4 . . . . . . . 
+        . . d . 4 4 4 4 4 4 . . . . . . 
+        . . . . 4 4 . . 4 4 . . . . . . 
+        . . . . 4 4 d . 4 4 d . . . . . 
+        `, SpriteKind.Boss)
+    BOWSER.setScale(2, ScaleAnchor.Middle)
+    BOWSER.ay = 300
+    BOWSER.follow(Mario, 60)
+    tiles.placeOnRandomTile(BOWSER, assets.tile`myTile17`)
+    tiles.setTileAt(location, assets.tile`transparency16`)
+    Bossalive = true
+    if (BOWSER.vy > -1) {
+        BOWSER.ay = 10000
+    }
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.up1, function (sprite, otherSprite) {
+    info.changeLifeBy(1)
+    sprites.destroy(_1up)
+})
 sprites.onOverlap(SpriteKind.Player, SpriteKind.coin, function (sprite, otherSprite) {
     info.changeScoreBy(1)
     sprites.destroy(otherSprite)
@@ -67,6 +156,59 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.coin, function (sprite, otherSpr
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile2`, function (sprite, location) {
     Mario.setPosition(0, 0)
     info.changeLifeBy(1)
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Player, function (sprite, otherSprite) {
+    if (0 < 0) {
+    	
+    }
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.koopashellllllll, function (sprite, otherSprite) {
+    info.changeScoreBy(1)
+    sprites.destroy(otherSprite)
+    koopashell = sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . 7 7 7 7 7 . . . . . . 
+        . . . . 7 1 7 1 7 1 7 . . . . . 
+        . . . 7 1 7 1 7 1 7 1 7 . . . . 
+        . . 7 1 7 1 7 1 7 1 7 1 7 . . . 
+        . 7 1 7 1 7 1 7 1 7 1 7 1 7 . . 
+        . 1 1 1 1 1 1 1 1 1 1 1 1 1 . . 
+        . . d d d d d d d d d d d . . . 
+        . . . d d d d d d d d d . . . . 
+        `, SpriteKind.koopashellllllll)
+    koopa = sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . 5 1 5 . . . . . . . 
+        . . . . . . 5 1 f 5 . . . . . . 
+        . . . . . 7 1 5 5 5 5 . . . . . 
+        . . . . 7 1 1 5 5 . . . . . . . 
+        . . . 7 1 7 1 5 . . . . . . . . 
+        . . 7 1 7 1 1 5 5 . . . . . . . 
+        . . 7 7 1 7 1 5 5 5 5 . . . . . 
+        . . 7 1 7 1 1 5 5 5 5 5 . . . . 
+        . . 7 7 1 7 1 5 5 5 5 5 5 5 . . 
+        . . . 1 7 1 1 5 5 . . 5 5 . . . 
+        . . . 7 1 7 1 5 5 . 5 . 5 . . . 
+        . . . . 7 1 1 5 5 . . . . . . . 
+        . . . . 5 5 5 5 5 5 . . . . . . 
+        . . . . 5 5 . 5 5 5 . . . . . . 
+        . . . . 5 5 5 . 5 5 5 . . . . . 
+        `, SpriteKind.bluekoopatrooper)
+    koopa.follow(Mario, 80)
+    koopa.setPosition(Mario.x + 80, Mario.y - 50)
+    if (koopa.vy > -1) {
+        koopa.ay = 10000
+    }
+})
+scene.onOverlapTile(SpriteKind.Boss, assets.tile`myTile17`, function (sprite, location) {
+    tiles.setTileAt(location, assets.tile`transparency16`)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.goomba, function (sprite, otherSprite) {
     info.changeScoreBy(1)
@@ -96,7 +238,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.goomba, function (sprite, otherS
     }
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile11`, function (sprite, location) {
-    Mario.setPosition(50, 50)
+    Mario.setPosition(79, 0)
     info.changeLifeBy(1)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
@@ -107,9 +249,21 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
         info.changeLifeBy(-1)
     }
 })
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Boss, function (sprite, otherSprite) {
+    if (Mario.y > otherSprite.y) {
+        info.changeScoreBy(5)
+    } else {
+        info.changeLifeBy(-1)
+    }
+})
 let gomba: Sprite = null
+let koopa: Sprite = null
+let Bossalive = false
+let BOWSER: Sprite = null
+let _1up: Sprite = null
 let SHELL_MAN: Sprite = null
 let Luige: Sprite = null
+let koopashell: Sprite = null
 let shell: Sprite = null
 let coin: Sprite = null
 let Mario: Sprite = null
@@ -307,7 +461,7 @@ for (let value of tiles.getTilesByType(assets.tile`myTile15`)) {
     tiles.setTileAt(value, assets.tile`transparency16`)
 }
 for (let value of tiles.getTilesByType(assets.tile`myTile16`)) {
-    Luige = sprites.create(img`
+    koopashell = sprites.create(img`
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
@@ -316,16 +470,16 @@ for (let value of tiles.getTilesByType(assets.tile`myTile16`)) {
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . e e e e e e e . . . . 
-        . . . e e e e e e e e e e e . . 
-        . . . e e e e e e e e e e e . . 
-        . . e e e e e e e e e e e e e . 
-        . . e e e f f e e e f f e e e . 
-        `, SpriteKind.Enemy)
-    tiles.placeOnTile(Luige, value)
+        . . . . . 7 7 7 7 7 . . . . . . 
+        . . . . 7 1 7 1 7 1 7 . . . . . 
+        . . . 7 1 7 1 7 1 7 1 7 . . . . 
+        . . 7 1 7 1 7 1 7 1 7 1 7 . . . 
+        . 7 1 7 1 7 1 7 1 7 1 7 1 7 . . 
+        . 1 1 1 1 1 1 1 1 1 1 1 1 1 . . 
+        . . d d d d d d d d d d d . . . 
+        . . . d d d d d d d d d . . . . 
+        `, SpriteKind.koopashellllllll)
+    tiles.placeOnTile(koopashell, value)
     tiles.setTileAt(value, assets.tile`transparency16`)
 }
 game.onUpdate(function () {
