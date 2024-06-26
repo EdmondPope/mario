@@ -1,6 +1,34 @@
 namespace SpriteKind {
     export const coin = SpriteKind.create()
+    export const shell = SpriteKind.create()
 }
+sprites.onOverlap(SpriteKind.Player, SpriteKind.shell, function (sprite, otherSprite) {
+    info.changeScoreBy(1)
+    sprites.destroy(otherSprite)
+    SHELL_MAN = sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . 5 1 5 . . . . . . . 
+        . . . . . . 5 1 f 5 . . . . . . 
+        . . . . . 7 1 5 5 5 5 . . . . . 
+        . . . . 7 1 1 5 5 . . . . . . . 
+        . . . 7 1 7 1 5 . . . . . . . . 
+        . . 7 1 7 1 1 5 . . . . . . . . 
+        . . 7 7 1 7 1 5 . . . . . . . . 
+        . . 7 1 7 1 1 5 5 . . . . . . . 
+        . . 7 7 1 7 1 5 5 5 5 . . . . . 
+        . . 7 1 7 1 1 5 . 5 5 5 . . . . 
+        . . . 7 1 7 1 5 . . 5 5 . . . . 
+        . . . . 7 1 1 5 5 . . . . . . . 
+        . . . . 5 5 5 5 5 5 . . . . . . 
+        . . . . 5 5 . . 5 5 . . . . . . 
+        . . . . 5 5 . . 5 5 . . . . . . 
+        `, SpriteKind.Enemy)
+    SHELL_MAN.follow(Mario, 80)
+    SHELL_MAN.setPosition(Mario.x + 80, Mario.y - 10)
+    if (SHELL_MAN.vy > -1) {
+        SHELL_MAN.ay = 10000
+    }
+})
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile1`, function (sprite, location) {
     Mario.setPosition(0, 0)
     info.changeLifeBy(1)
@@ -37,6 +65,12 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile11`, function (sprite, 
     Mario.setPosition(50, 50)
     info.changeLifeBy(1)
 })
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
+    info.changeLifeBy(-1)
+    sprites.destroy(otherSprite)
+})
+let SHELL_MAN: Sprite = null
+let shell: Sprite = null
 let coin: Sprite = null
 let Mario: Sprite = null
 game.setGameOverPlayable(false, music.melodyPlayable(music.bigCrash), false)
@@ -208,5 +242,27 @@ for (let value of tiles.getTilesByType(assets.tile`myTile14`)) {
         . . . . 4 4 4 4 4 4 4 . . . . . 
         `, SpriteKind.coin)
     tiles.placeOnTile(coin, value)
+    tiles.setTileAt(value, assets.tile`transparency16`)
+}
+for (let value of tiles.getTilesByType(assets.tile`myTile15`)) {
+    shell = sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . 7 7 7 7 7 . . . . . . 
+        . . . . 7 1 7 1 7 1 7 . . . . . 
+        . . . 7 1 7 1 7 1 7 1 7 . . . . 
+        . . 7 1 7 1 7 1 7 1 7 1 7 . . . 
+        . 7 1 7 1 7 1 7 1 7 1 7 1 7 . . 
+        . 1 1 1 1 1 1 1 1 1 1 1 1 1 . . 
+        . . d d d d d d d d d d d . . . 
+        . . . d d d d d d d d d . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `, SpriteKind.shell)
+    tiles.placeOnTile(shell, value)
     tiles.setTileAt(value, assets.tile`transparency16`)
 }
