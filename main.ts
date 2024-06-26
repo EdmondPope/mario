@@ -1,6 +1,7 @@
 namespace SpriteKind {
     export const coin = SpriteKind.create()
     export const shell = SpriteKind.create()
+    export const goomba = SpriteKind.create()
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.shell, function (sprite, otherSprite) {
     info.changeScoreBy(1)
@@ -42,6 +43,12 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile13`, function (sprite, 
     Mario.setPosition(50, 50)
     info.changeLifeBy(1)
 })
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    music.play(music.stringPlayable("C5 F C5 E D E F C ", 120), music.PlaybackMode.UntilDone)
+    music.play(music.stringPlayable("C5 B A G F E D C ", 120), music.PlaybackMode.UntilDone)
+    music.play(music.stringPlayable("B A G F E D C C5 ", 120), music.PlaybackMode.UntilDone)
+    music.play(music.stringPlayable("A G F E D C C5 B ", 120), music.PlaybackMode.UntilDone)
+})
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile12`, function (sprite, location) {
     Mario.setPosition(50, 50)
     info.changeLifeBy(1)
@@ -61,6 +68,36 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile2`, function (sprite, l
     Mario.setPosition(0, 0)
     info.changeLifeBy(1)
 })
+scene.onOverlapTile(SpriteKind.goomba, assets.tile`myTile16`, function (sprite, location) {
+    tiles.placeOnTile(gomba, tiles.getTileLocation(0, 0))
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.goomba, function (sprite, otherSprite) {
+    info.changeScoreBy(1)
+    sprites.destroy(otherSprite)
+    gomba = sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . e e e e e e . . . . . 
+        . . . . f e e e e e e f . . . . 
+        . . . e 1 f e e e e f 1 e . . . 
+        . . e e 1 f f f f f f 1 e e . . 
+        . e e e 1 f 1 e e 1 f 1 e e e . 
+        . e e e 1 f 1 e e 1 f 1 e e e . 
+        . e e e 1 1 1 e e 1 1 1 e e e . 
+        . e e e e e e e e e e e e e e . 
+        . . e e e e d d d d e e e e . . 
+        . . . . f f d d d d f f . . . . 
+        . . . f f f d d d d f f f . . . 
+        . . . f f f . . . . f f f . . . 
+        `, SpriteKind.Enemy)
+    gomba.follow(Mario, 80)
+    gomba.setPosition(Mario.x + 80, Mario.y - 10)
+    if (gomba.vy > -1) {
+        gomba.ay = 10000
+    }
+})
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile11`, function (sprite, location) {
     Mario.setPosition(50, 50)
     info.changeLifeBy(1)
@@ -69,6 +106,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
     info.changeLifeBy(-1)
     sprites.destroy(otherSprite)
 })
+let gomba: Sprite = null
 let SHELL_MAN: Sprite = null
 let shell: Sprite = null
 let coin: Sprite = null
@@ -266,3 +304,11 @@ for (let value of tiles.getTilesByType(assets.tile`myTile15`)) {
     tiles.placeOnTile(shell, value)
     tiles.setTileAt(value, assets.tile`transparency16`)
 }
+game.onUpdate(function () {
+    if (Mario.isHittingTile(CollisionDirection.Left) || Mario.isHittingTile(CollisionDirection.Right)) {
+        Mario.vy = 0
+        Mario.ay = 0
+    } else {
+        Mario.ay = 300
+    }
+})
