@@ -13,7 +13,7 @@ namespace SpriteKind {
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.shell, function (sprite, otherSprite) {
     info.changeScoreBy(1)
-    sprites.destroy(otherSprite)
+    sprites.destroy(otherSprite, effects.disintegrate, 500)
     Luige = sprites.create(img`
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
@@ -57,7 +57,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.shell, function (sprite, otherSp
     }
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile1`, function (sprite, location) {
-    Mario.setPosition(0, 0)
+    tiles.placeOnRandomTile(Mario, assets.tile`myTile21`)
     info.changeLifeBy(1)
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile19`, function (sprite, location) {
@@ -88,24 +88,21 @@ controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     }
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile13`, function (sprite, location) {
-    Mario.setPosition(79, 0)
+    tiles.placeOnRandomTile(Mario, assets.tile`myTile30`)
     info.changeLifeBy(1)
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    music.play(music.stringPlayable("C D C D C D C D ", 120), music.PlaybackMode.UntilDone)
-    music.play(music.stringPlayable("C D C D C D C D ", 120), music.PlaybackMode.UntilDone)
-    music.play(music.stringPlayable("C E C E C E C E ", 120), music.PlaybackMode.UntilDone)
-    music.play(music.stringPlayable("C D C D C D C D ", 120), music.PlaybackMode.UntilDone)
+	
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile12`, function (sprite, location) {
-    Mario.setPosition(79, 0)
+    tiles.placeOnRandomTile(Mario, assets.tile`myTile30`)
     info.changeLifeBy(1)
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile9`, function (sprite, location) {
     game.gameOver(false)
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile3`, function (sprite, location) {
-    Mario.setPosition(0, 0)
+    tiles.placeOnRandomTile(Mario, assets.tile`myTile21`)
     info.changeLifeBy(1)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.bluekoopatrooper, function (sprite, otherSprite) {
@@ -115,6 +112,9 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.bluekoopatrooper, function (spri
     } else {
         info.changeLifeBy(-1)
     }
+})
+controller.combos.attachCombo("a a b b a b b a", function () {
+    info.changeLifeBy(40)
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile18`, function (sprite, location) {
     BOWSER = sprites.create(img`
@@ -135,7 +135,6 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile18`, function (sprite, 
         . . . . 4 4 . . 4 4 . . . . . . 
         . . . . 4 4 d . 4 4 d . . . . . 
         `, SpriteKind.Boss)
-    BOWSER.setScale(2, ScaleAnchor.Middle)
     BOWSER.ay = 300
     BOWSER.follow(Mario, 60)
     tiles.placeOnRandomTile(BOWSER, assets.tile`myTile17`)
@@ -145,26 +144,25 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile18`, function (sprite, 
         BOWSER.ay = 10000
     }
 })
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile29`, function (sprite, location) {
+    tiles.placeOnRandomTile(Mario, assets.tile`myTile32`)
+    info.changeLifeBy(1)
+})
 sprites.onOverlap(SpriteKind.Player, SpriteKind.up1, function (sprite, otherSprite) {
     info.changeLifeBy(1)
     sprites.destroy(_1up)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.coin, function (sprite, otherSprite) {
     info.changeScoreBy(1)
-    sprites.destroy(otherSprite)
+    sprites.destroy(otherSprite, effects.fire, 500)
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile2`, function (sprite, location) {
-    Mario.setPosition(0, 0)
+    tiles.placeOnRandomTile(Mario, assets.tile`myTile21`)
     info.changeLifeBy(1)
-})
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Player, function (sprite, otherSprite) {
-    if (0 < 0) {
-    	
-    }
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.koopashellllllll, function (sprite, otherSprite) {
     info.changeScoreBy(1)
-    sprites.destroy(otherSprite)
+    sprites.destroy(otherSprite, effects.disintegrate, 500)
     koopashell = sprites.create(img`
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
@@ -207,6 +205,10 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.koopashellllllll, function (spri
         koopa.ay = 10000
     }
 })
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile27`, function (sprite, location) {
+    tiles.placeOnRandomTile(Mario, assets.tile`myTile32`)
+    info.changeLifeBy(1)
+})
 scene.onOverlapTile(SpriteKind.Boss, assets.tile`myTile17`, function (sprite, location) {
     tiles.setTileAt(location, assets.tile`transparency16`)
 })
@@ -238,11 +240,15 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.goomba, function (sprite, otherS
     }
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile11`, function (sprite, location) {
-    Mario.setPosition(79, 0)
+    tiles.placeOnRandomTile(Mario, assets.tile`myTile30`)
+    info.changeLifeBy(1)
+})
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile28`, function (sprite, location) {
+    tiles.placeOnRandomTile(Mario, assets.tile`myTile32`)
     info.changeLifeBy(1)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
-    sprites.destroy(otherSprite)
+    sprites.destroy(otherSprite, effects.disintegrate, 500)
     if (Mario.y < otherSprite.y) {
         info.changeScoreBy(5)
     } else {
@@ -250,8 +256,9 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
     }
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Boss, function (sprite, otherSprite) {
-    if (Mario.y > otherSprite.y) {
+    if (Mario.y < BOWSER.y) {
         info.changeScoreBy(5)
+        sprites.destroy(otherSprite)
     } else {
         info.changeLifeBy(-1)
     }
